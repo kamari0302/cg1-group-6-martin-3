@@ -11,7 +11,8 @@ import 'webgl-lint'
 import { UIPanel } from './ui/UIPanel';
 import { UILabel } from './ui/UILabel';
 import { MultiSwitch, MultiSwitchElement } from './ui/MultiSwitch';
-
+import WoodTexture from './wood.jpg'
+import FisrtTexture from './first.jpg'
 
 type AppContext = {
     gl: WebGL2RenderingContext;
@@ -114,7 +115,7 @@ function createCuboid(pos: Vector3, dim: Vector3, color: Vector3 = new Vector3(0
     addVertex(pos.x + dim.x, pos.y + dim.y, pos.z); // rechts hinten 2
     addVertex(pos.x + dim.x, pos.y, pos.z); // rechts vorne  3
   
-    
+
     // Oben
     addVertex(pos.x, pos.y, pos.z + dim.z); // links vorne   4
     addVertex(pos.x, pos.y + dim.y, pos.z + dim.z); // links hinten  5
@@ -150,7 +151,28 @@ function createCuboid(pos: Vector3, dim: Vector3, color: Vector3 = new Vector3(0
 
     return { vertices, indices};
 }
+const createWoodTexture = async (gl: WebGLRenderingContext) => {
 
+    const tex: WebGLTexture = gl.createTexture();
+
+    const img = await loadImage(WoodTexture);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    return tex;
+}
+
+export const loadImage = async (url: string) => {
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.crossOrigin = "";
+        img.src = url;
+    })
+    return img;
+}
 export const createBall = (
     gl: WebGL2RenderingContext,
     pos: Vector3 = new Vector3(0,0,0),
@@ -430,14 +452,6 @@ const App = () => {
         let top = mynear * (displayHeight / 2 - camY) / camZ;
 
         ctx.projection.identity();
-        if (viewMode == ViewMode.Orthographic) {
-            ctx.projection = new Matrix4().ortho(
-                {
-                    left: -displayWidth / 2, right: displayWidth / 2,
-                    bottom: -displayHeight / 2, top: displayHeight / 2,
-                    near: mynear, far: myfar
-                });
-        }
         if (viewMode == ViewMode.Perspective) {
             ctx.projection = new Matrix4().frustum(
                 {
@@ -478,6 +492,7 @@ const App = () => {
 
         modelView.identity();
         modelView.fromQuaternion(qNow);
+        modelView.translate([-10,-5,0])
         modelView.scale([zoom, zoom, zoom]);
         modelView.scale([15, 15, 15]);
 
@@ -486,22 +501,21 @@ const App = () => {
 
         gl.colorMask(true, true, true, true);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        if (viewMode == ViewMode.Stereo) {
-            gl.colorMask(true, false, false, true);
-            ctx.projection = PLeft;
             drawShapes(ctx);
-
-            gl.clear(gl.DEPTH_BUFFER_BIT);
-
-            gl.colorMask(false, true, true, true);
-            ctx.projection = PRight;
-            drawShapes(ctx);
-        } else {
-            drawShapes(ctx);
-        }
     }
 
+    const createTexture = async (gl: WebGLRenderingContext) => {
+
+        const tex: WebGLTexture = gl.createTexture();
+    
+      //  const img = await loadImage(TurtleTexture);
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      //  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        return tex;
+    }
+    
 
     const init = async () => {
         // Initialize WebGL2 Context / OpenGL ES 3.0
