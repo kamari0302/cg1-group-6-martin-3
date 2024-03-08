@@ -113,7 +113,8 @@ function createCuboid(pos: Vector3, dim: Vector3, color: Vector3 = new Vector3(0
     addVertex(pos.x, pos.y + dim.y, pos.z); // links hinten  1
     addVertex(pos.x + dim.x, pos.y + dim.y, pos.z); // rechts hinten 2
     addVertex(pos.x + dim.x, pos.y, pos.z); // rechts vorne  3
-
+  
+    
     // Oben
     addVertex(pos.x, pos.y, pos.z + dim.z); // links vorne   4
     addVertex(pos.x, pos.y + dim.y, pos.z + dim.z); // links hinten  5
