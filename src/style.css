@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+
+.fullbody {
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
+	height: 100vh;
+	height: -webkit-fill-available;
+}
+
+.darkenGradient {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 82%, rgba(0,0,0,0.8) 100%);
+}
+
+:root {
+    --dm-accent: #c1002a
+}
+
+.animatedProgressBar {
+    transition-property: width;
+    transition-timing-function: linear;
+    transition-duration: 500ms;
+}
+
+.progressBar {
+    background: linear-gradient(270deg, #c1002a, #999999, #c1002a);
+    background-size: 50% 100%;
+    background-attachment: fixed;
+
+    -webkit-animation: ProgressAnimation 2s linear infinite;
+    -moz-animation: ProgressAnimation 2s linear infinite;
+    animation: ProgressAnimation 2s linear infinite;
+}
+
+.textProgressBase {
+    background: white;
+    z-index: 1;
+}
+
+.textProgressOverlay {
+    z-index: 4 !important;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+.textProgressBar {
+    background-color: black;
+    z-index: 2;
+}
+
+.textProgressChildrenContainer {
+    z-index: 3 !important;
+    color: white;
+    mix-blend-mode: difference;
+}
+
+@keyframes ProgressAnimation {
+    0% {
+        background-position: 0% 50%
+    }
+
+    100% {
+        background-position: 200% 50%
+    }
+}
+
+html {
+    height: -webkit-fill-available;
+    scrollbar-color: var(--dm-accent) var(--primary);
+    scrollbar-width: thin;
+}
+
+.fullbody {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--dm-accent);
+    /* border-radius: 4px; */
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.hidden-scrollbar {
+    scrollbar-width: none;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.anim-bounce {
+    animation: mbounce 1s infinite;
+}
+
+.anim-delay-1 {
+    animation-delay: 0.33s;
+}
+
+.anim-delay-2 {
+    animation-delay: 0.66s;
+}
+
+@keyframes mbounce {
+
+    0%,
+    100% {
+        transform: translateY(-15%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+@keyframes heroFadeInUp {
+    from {
+        transform: translate3d(0, 40px, 0);
+        opacity: 0
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+@-webkit-keyframes heroFadeInUp {
+    from {
+        transform: translate3d(0, 40px, 0);
+        opacity: 0
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
+}
+
+.heroFadeInUp {
+    opacity: 0;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: heroFadeInUp;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-name: heroFadeInUp;
+}
+
+input[type=range]{
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 0%;
+    background: var(--dm-accent);
+    margin-top: 0px;
+}
+
+input[type=range]::-moz-range-thumb {
+    -moz-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 0%;
+    background: var(--dm-accent);
+    margin-top: -2px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+    outline: none;
+}
